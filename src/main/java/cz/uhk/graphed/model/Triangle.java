@@ -35,6 +35,14 @@ public class Triangle extends AbstractGraphicObject{
 
     @Override
     public boolean contains(Point p) {
-        return false;
+        int dx = (int)Math.round((p.y - position.y) * Math.tan(Math.PI / 6));
+        return p.x >= position.x && p.x <= position.x + a - dx
+                && p.y <= position.y && p.y >= cy;
+    }
+
+    @Override
+    public void setPosition(Point position) {
+        super.setPosition(position);
+        computeC();
     }
 }
