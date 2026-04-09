@@ -4,40 +4,30 @@ import java.awt.*;
 
 public class Circle extends AbstractGraphicObject{
 
-    protected int a;
-    protected int b;
+    protected int r;
 
-    public Circle(Point position, Color color, int a) {
+    public Circle(Point position, Color color, int r) {
         super(color, position);
-        this.a = a;
-//        this.b = b;
+        this.r = r;
     }
 
-/*    public int getB() {
-        return b;
+    public int getR() {
+        return r;
     }
 
-    public void setB(int b) {
-        this.b = b;
-    }*/
-
-    public int getA() {
-        return a;
-    }
-
-    public void setA(int a) {
-        this.a = a;
+    public void setR(int r) {
+        this.r = r;
     }
 
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(color);
-        g2.drawOval(position.x, position.y, a, a);
+        g2.drawOval(position.x, position.y, 2 * r, 2 * r);
     }
 
     @Override
     public boolean contains(Point p) {
-        return false;
+        return Math.pow(p.x - position.x - r, 2) + Math.pow(p.y - position.y - r, 2) <= r * r;
     }
 }
