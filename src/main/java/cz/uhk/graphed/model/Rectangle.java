@@ -8,7 +8,7 @@ public class Rectangle extends AbstractGraphicObject{
     protected int b;
 
     public Rectangle(Point position, Color color, int a, int b) {
-        super(color, position);
+        super(position, color);
         this.a = a;
         this.b = b;
     }

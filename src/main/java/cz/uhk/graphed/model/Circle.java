@@ -7,7 +7,7 @@ public class Circle extends AbstractGraphicObject{
     protected int r;
 
     public Circle(Point position, Color color, int r) {
-        super(color, position);
+        super(position, color);
         this.r = r;
     }
 

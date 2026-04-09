@@ -9,7 +9,7 @@ public class Triangle extends AbstractGraphicObject{
     private int cx, cy; //pomocne souradnice
 
     public Triangle( Point position, Color color, int a) {
-        super(color, position);
+        super(position, color);
         this.a = a;
         computeC();
     }

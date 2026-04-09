@@ -6,16 +6,14 @@ public abstract class AbstractGraphicObject {
     protected Point position;
     protected Color color;
 
-    public AbstractGraphicObject(Color color, Point position) {
-        this.color = color;
+
+    public AbstractGraphicObject(Point position, Color color) {
         this.position = position;
+        this.color = color;
     }
 
-    //Prazdnej Contsturctor
-    public AbstractGraphicObject() {
-    }
+    public AbstractGraphicObject() {}
 
-    //Gettery a settery
     public Point getPosition() {
         return position;
     }
@@ -25,7 +23,7 @@ public abstract class AbstractGraphicObject {
     }
 
     public void setPosition(int x, int y) {
-        setPosition(new Point(x, y));
+        this.position = new Point(x, y);
     }
 
     public Color getColor() {
@@ -37,9 +35,7 @@ public abstract class AbstractGraphicObject {
     }
 
     public abstract void draw(Graphics g);
-
     public abstract boolean contains(Point p);
-
     public boolean contains(int x, int y) {
         return contains(new Point(x, y));
     }

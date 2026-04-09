@@ -10,7 +10,7 @@ public class Square extends AbstractGraphicObject {
     }
 
     public Square(Point position, Color color, int a) {
-        super(color, position);
+        super(position, color);
         this.a = a;
     }
 

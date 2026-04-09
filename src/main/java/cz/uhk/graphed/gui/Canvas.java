@@ -1,9 +1,10 @@
 package cz.uhk.graphed.gui;
 
+import cz.uhk.graphed.Main;
 import cz.uhk.graphed.model.AbstractGraphicObject;
+import cz.uhk.graphed.model.GraphicGroup;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,60 +12,79 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Canvas extends JPanel {
-    private List<AbstractGraphicObject> graphicObjects = new ArrayList<>();
-    private AbstractGraphicObject selectedObject;
-    private int dx;
-    private int dy;
+    private EditorFrame frame;
+    private List<AbstractGraphicObject> graphicObjectList = new ArrayList<>();
+    private AbstractGraphicObject selectedObject = null;
+    private Point mouseOffset;
 
-    public Canvas() {
+    public Canvas(EditorFrame frame) {
+        this.frame = frame;
         setBackground(Color.white);
         setPreferredSize(new Dimension(800, 600));
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                if (selectedObject != null) {
+                    selectedObject.setPosition(new Point(e.getX() - mouseOffset.x, e.getY() - mouseOffset.y));
+                    repaint();
+                }
+                frame.updateLabelCursorPosition(e.getPoint());
+            }
 
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                frame.updateLabelCursorPosition(e.getPoint());
+            }
+        });
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 selectedObject = findObjectContaining(e.getPoint());
                 if (selectedObject != null) {
-                    //nalezen utvar/objekt
-                    dx = e.getX() - selectedObject.getPosition().x;
-                    dy = e.getY() - selectedObject.getPosition().y;
+                    mouseOffset = new Point(e.getX() - selectedObject.getPosition().x, e.getY() - selectedObject.getPosition().y);
                 }
             }
-        });
 
-        addMouseMotionListener(new MouseAdapter() {
             @Override
-            public void mouseDragged(MouseEvent e) {
-
-                if(selectedObject != null){
-                    selectedObject.setPosition(e.getX()-dx, e.getY()-dy);
-                    //                    o.setPosition(e.getPoint());
-                    repaint();
-                }
-                //super.mouseDragged(e);
+            public void mouseReleased(MouseEvent e) {
+                selectedObject = null;
             }
         });
     }
 
     private AbstractGraphicObject findObjectContaining(Point point) {
         AbstractGraphicObject result = null;
-        for (var object : graphicObjects) {
-            if (object.contains(point))
+        for (AbstractGraphicObject object : graphicObjectList) {
+            if (object.contains(point)) {
                 result = object;
+            }
         }
         return result;
     }
 
     public void add(AbstractGraphicObject object) {
-        graphicObjects.add(object);
+        graphicObjectList.add(object);
+        repaint();
+        frame.updateLabelObjectsCount(graphicObjectList.size(), computeTotalObjectCount());
+    }
+
+    private int computeTotalObjectCount() {
+        int totalObjectCount = 0;
+        for (AbstractGraphicObject obj : graphicObjectList) {
+            if (obj instanceof GraphicGroup) {
+                totalObjectCount += ((GraphicGroup) obj).getItemList().size();
+            } else {
+                totalObjectCount++;
+            }
+        }
+        return totalObjectCount;
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-
-        for (var o : graphicObjects) {
-            o.draw(g);
+        for (var obj : graphicObjectList) {
+            obj.draw(g);
         }
     }
 }
