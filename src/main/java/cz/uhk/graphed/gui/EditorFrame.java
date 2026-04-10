@@ -4,13 +4,13 @@ import cz.uhk.graphed.model.*;
 import cz.uhk.graphed.model.Rectangle;
 
 import javax.swing.*;
-import javax.swing.border.Border;
+import java.util.Random;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class EditorFrame extends JFrame {
-    ;
+
     private Canvas canvas = new Canvas(this);
 
     public EditorFrame() throws HeadlessException {
@@ -23,36 +23,62 @@ public class EditorFrame extends JFrame {
         pack();
     }
 
+    private Random random = new Random();
+
+    private Point getRandomPoint(){
+        int x = random.nextInt(700);
+        int y = random.nextInt(500) + 50;
+        return new Point(x, y);
+    }
+
+    private Color getRandomColor(){
+        return new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+    }
+
     private JToolBar createToolBar() {
         JToolBar toolBar = new JToolBar(JToolBar.HORIZONTAL);
+
+        //Square
         Action actionSquare = new AbstractAction("Square") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                canvas.add(new Square(new Point(0, 0), Color.BLACK, 50));
+                int size = random.nextInt(80) + 20; //20-100px
+                canvas.add(new Square(getRandomPoint(), getRandomColor(), size));
             }
         };
         actionSquare.putValue(Action.SHORT_DESCRIPTION, "Draws a square.");
         toolBar.add(actionSquare);
+
+        //Rectangle
         Action actionRectangle = new AbstractAction("Rectangle") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                canvas.add(new Rectangle(new Point(0, 0), Color.BLACK, 50, 100));
+                int a = random.nextInt(80) + 20;
+                int b = random.nextInt(80) + 20;
+                canvas.add(new Rectangle(getRandomPoint(), getRandomColor(), a, b));
             }
         };
         actionRectangle.putValue(Action.SHORT_DESCRIPTION, "Draws a rectangle.");
         toolBar.add(actionRectangle);
+
+        //Circle
         Action actionCircle = new AbstractAction("Circle") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                canvas.add(new Circle(new Point(0, 0), Color.BLACK, 50));
+                int r = random.nextInt(100) + 10;
+                canvas.add(new Circle(getRandomPoint(), getRandomColor(), r));
             }
         };
         actionCircle.putValue(Action.SHORT_DESCRIPTION, "Draws a circle.");
         toolBar.add(actionCircle);
+
+
+        //Triangle
         Action actionTriangle = new AbstractAction("Triangle") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                canvas.add(new Triangle(new Point(0, 50), Color.BLACK, 50));
+                int a = random.nextInt(100) + 20;
+                canvas.add(new Triangle(getRandomPoint(), getRandomColor(), a));
             }
         };
         actionTriangle.putValue(Action.SHORT_DESCRIPTION, "Draws a triangle.");
