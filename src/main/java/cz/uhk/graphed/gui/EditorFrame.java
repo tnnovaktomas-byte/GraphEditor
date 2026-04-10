@@ -25,12 +25,6 @@ public class EditorFrame extends JFrame {
 
     private Random random = new Random();
 
-    private Point getRandomPoint(){
-        int x = random.nextInt(700);
-        int y = random.nextInt(500) + 50;
-        return new Point(x, y);
-    }
-
     private Color getRandomColor(){
         return new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
     }
@@ -42,8 +36,10 @@ public class EditorFrame extends JFrame {
         Action actionSquare = new AbstractAction("Square") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int size = random.nextInt(80) + 20; //20-100px
-                canvas.add(new Square(getRandomPoint(), getRandomColor(), size));
+                int size = random.nextInt(100) + 20;
+                int x = random.nextInt(Math.max(1, canvas.getWidth() - size));
+                int y = random.nextInt(Math.max(1, canvas.getHeight() - size));
+                canvas.add(new Square(new Point(x, y), getRandomColor(), size));
             }
         };
         actionSquare.putValue(Action.SHORT_DESCRIPTION, "Draws a square.");
@@ -53,9 +49,11 @@ public class EditorFrame extends JFrame {
         Action actionRectangle = new AbstractAction("Rectangle") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int a = random.nextInt(80) + 20;
-                int b = random.nextInt(80) + 20;
-                canvas.add(new Rectangle(getRandomPoint(), getRandomColor(), a, b));
+                int width = random.nextInt(100) + 20;
+                int height = random.nextInt(100) + 20;
+                int x = random.nextInt(Math.max(1, canvas.getWidth() - width));
+                int y = random.nextInt(Math.max(1, canvas.getHeight() - height));
+                canvas.add(new Rectangle(new Point(x, y), getRandomColor(), width, height));
             }
         };
         actionRectangle.putValue(Action.SHORT_DESCRIPTION, "Draws a rectangle.");
@@ -65,8 +63,11 @@ public class EditorFrame extends JFrame {
         Action actionCircle = new AbstractAction("Circle") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int r = random.nextInt(100) + 10;
-                canvas.add(new Circle(getRandomPoint(), getRandomColor(), r));
+                int radius = random.nextInt(100) + 15;
+                int diamater = radius * 2;
+                int x = random.nextInt(Math.max(1, canvas.getWidth() - diamater));
+                int y = random.nextInt(Math.max(1, canvas.getHeight() - diamater));
+                canvas.add(new Circle(new Point(x, y), getRandomColor(), radius));
             }
         };
         actionCircle.putValue(Action.SHORT_DESCRIPTION, "Draws a circle.");
@@ -77,8 +78,11 @@ public class EditorFrame extends JFrame {
         Action actionTriangle = new AbstractAction("Triangle") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int a = random.nextInt(100) + 20;
-                canvas.add(new Triangle(getRandomPoint(), getRandomColor(), a));
+                int side = random.nextInt(100) + 20;
+                int height = (int)(side * Math.sin(Math.PI / 3));
+                int x = random.nextInt(Math.max(1, canvas.getWidth() - side));
+                int y = random.nextInt(Math.max(1, canvas.getHeight() - height)) + height;
+                canvas.add(new Triangle(new Point(x, y), getRandomColor(), side));
             }
         };
         actionTriangle.putValue(Action.SHORT_DESCRIPTION, "Draws a triangle.");
