@@ -26,7 +26,35 @@ public class EditorFrame extends JFrame {
     private Random random = new Random();
 
     private Color getRandomColor(){
-        return new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+        int a = random.nextInt(256);
+        int b = random.nextInt(256);
+        int c = 0;
+        int d = 255;
+        
+        if (a == d && b == d) {
+            c = random.nextInt(100);
+        } else if (a == d && b <= 100) {
+            c = random.nextInt(256);
+        } else if (a <= 100 && b == d){
+            c = random.nextInt(256);
+        } 
+/*        int b = 0;
+        int c = 0;
+        int d = 255;
+
+        if (a == d) {
+            b = random.nextInt(256);
+                    if (b == d)     c = random.nextInt(100);
+        }
+
+        b = random.nextInt(256);
+        if (b == d || a <=100) {
+            c = random.nextInt(256);
+        }
+        int c = random.nextInt(256);
+*/
+
+        return new Color(a, b, c);
     }
 
     private JToolBar createToolBar() {
